@@ -1,0 +1,21 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+GET     /                           controllers.HomeController.index
+GET     /todo-app/tasks             controllers.TasksController.getAllTasks
+
+GET     /todo-app/tasks/view/:id    controllers.TasksController.view(id : Long)
+
+GET     /todo-app/tasks/create      controllers.TasksController.getCreateForm(request: Request)
++ nocsrf
+POST    /todo-app/tasks/create      controllers.TasksController.createTask(request: Request)
+
+GET     /todo-app/tasks/edit/:id    controllers.TasksController.edit(id : Long, request: Request)
++ nocsrf
+POST    /todo-app/tasks/update      controllers.TasksController.updateTask(request: Request)
+
+GET  /todo-app/tasks/delete/:id  controllers.TasksController.deleteTask(id : Long)
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

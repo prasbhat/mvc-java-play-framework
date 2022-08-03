@@ -1,0 +1,35 @@
+@(tasksList : List[Tasks])
+
+@layout("List All Tasks") {
+  <table class="table table-striped table-hover">
+    <caption style="caption-side: top;font-style:italic;text-align:center;">Click on the row(s) to view the details</caption>
+    <!--<a class="btn btn-success" href="@routes.TasksController.getCreateForm()">
+      <i class="fa fa-plus" aria-hidden="true"></i> Create</a>-->
+    <thead align="center">
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Due Date</th>
+      <th>Status</th>
+      <th>No. Of Comments</th>
+      <th>Edit</th>
+      <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody align="center">
+    @for(task <- tasksList) {
+    <tr onclick="rowClick('@routes.TasksController.view(task.getSystemTaskId())');">
+      <td>@task.getTitle()</td>
+      <td>@task.getDescription()</td>
+      <td>@task.getDueDateStr()</td>
+      <td>@task.getStatus()</td>
+      <td align="center">@task.getTodoTaskCommentsSet().size()</td>
+      <td><a class="btn btn-warning" href="@routes.TasksController.edit(task.getSystemTaskId())">
+        <i class="fa fa-edit" aria-hidden="true"></i></a></td>
+      <td><a class="btn btn-danger" href="@routes.TasksController.deleteTask(task.getSystemTaskId())">
+        <i class="fa fa-trash" aria-hidden="true"></i></a></td>
+    </tr>
+    }
+    </tbody>
+  </table>
+}

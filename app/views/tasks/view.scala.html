@@ -1,0 +1,55 @@
+@(task : Tasks)
+
+@layout("View Task") {
+  <table class="table table-striped">
+    <tbody>
+    <tr>
+      <td>Title</td>
+      <td>@task.getTitle()</td>
+    </tr><tr>
+      <td>Description</td>
+      <td>@task.getDescription()</td>
+    </tr><tr>
+      <td>Creation Date</td>
+      <td>@task.getCreationDateStr()</td>
+    </tr><tr>
+      <td>Due Date</td>
+      <td>@task.getDueDateStr()</td>
+    </tr><tr>
+      <td>Status</td>
+      <td>@task.getStatus()</td>
+    </tr>
+    @if(task.getTodoTaskCommentsSet().size() > 0){
+    <tr>
+      <td colspan="2">
+        <table class="table table-bordered" style="text-align:center;">
+          <caption style="caption-side: top;font-weight:bold;text-align:center;">Task Comments</caption>
+          <thead>
+          <tr>
+            <th>Creation Date</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+          @for(taskComment <- task.getTodoTaskCommentsSet()) {
+          <tr>
+            <td>@taskComment.getCreationDateStr()</td>
+            <td>@taskComment.getTaskComments()</td>
+          </tr>
+          }
+          </tbody>
+        </table>
+      </td>
+    </tr>
+    }
+    <tr align="center">
+      <td>
+        <a class="btn btn-warning" href="@routes.TasksController.edit(task.getSystemTaskId())">
+          <i class="fa fa-edit" aria-hidden="true"></i></a>
+      </td><td>
+      <a class="btn btn-danger" href="@routes.TasksController.deleteTask(task.getSystemTaskId())">
+        <i class="fa fa-trash" aria-hidden="true"></i></a></td>
+    </tr>
+    </tbody>
+  </table>
+}

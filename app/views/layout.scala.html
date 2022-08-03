@@ -1,0 +1,47 @@
+@*
+ * This template is called from the tasks folder templates. This template
+ * handles the rendering of the page header,styles (css), js and body tags. It takes
+ * one argument,`Html` object to insert into the body of the page.
+ *@
+@(title: String)(content: Html)
+
+<html lang="en">
+    <head>
+        <title>Todo Tracker Application</title>
+        <!-- Add the bootstrap css from public/css folder -->
+        <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("css/bootstrap.min.css")">
+        <!-- Add the font-awesome css from the cdn link directly -->
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <!-- Start of navigation menu -->
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                    <a href="@routes.TasksController.getAllTasks" class="navbar-brand">
+                        <img src="@routes.Assets.versioned("images/favicon.png")" alt="" width="30" height="24" class="d-inline-block align-text-top">
+                        <b>Todo Tracker Application</b></a>
+                    @* Here's where we render the page title `String`. *@
+                    <h4>@title</h4>
+                    <ul class="nav nav-pills">
+                        <li class="nav-item"><a href="@routes.TasksController.getAllTasks" class="nav-link" id="home" aria-current="page">Home</a></li>
+                        <li class="nav-item"><a href="@routes.TasksController.getCreateForm" id="create" class="nav-link">Create Task</a></li>
+                    </ul>
+                </div>
+            </nav>
+            <!-- End of navigation menu -->
+            <br/>
+            @* And here's where we render the `Html` object containing the page content. *@
+            @content
+        </div>
+
+        <!-- It is always advisable to add the script tags inside body tag toward the end for faster rendering of the page  -->
+        <!-- Add the required js from public/js folder -->
+        <!-- Add the popper.js and jquery.js before the bootstrap.js -->
+        <script src="@routes.Assets.versioned("js/popper.min.js")"></script>
+        <script src="@routes.Assets.versioned("js/jquery-3.6.0.min.js")"></script>
+        <script src="@routes.Assets.versioned("js/bootstrap.min.js")"></script>
+        <!-- Add all the custom js in custom.js -->
+        <script src="@routes.Assets.versioned("js/custom.js")"></script>
+    </body>
+</html>

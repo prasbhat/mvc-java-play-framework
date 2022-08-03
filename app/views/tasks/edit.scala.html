@@ -1,0 +1,99 @@
+@(tasksForm : Form[Tasks])(statusList : Seq[(String, String)])(todoTaskCommentsSet : Set[TodoTaskComments])(todoTaskCommentsForm : Form[TodoTaskComments])(implicit messages: play.i18n.Messages)
+@import helper._
+
+@layout("Edit Task") {
+  @helper.form(action = routes.TasksController.updateTask()){
+  <table class='table table-bordered'>
+    <tbody>
+    <tr>
+      <td>
+        @helper.inputText(
+        tasksForm("title"),
+        Symbol("_label") -> "Title",
+        Symbol("class") -> "form-control")
+      </td>
+    </tr><tr>
+      <td>
+        @helper.textarea(
+        tasksForm("description"),
+        Symbol("_label") -> "Description",
+        Symbol("class") -> "form-control")
+      </td>
+    </tr><tr>
+      <td>
+        @helper.inputDate(
+        tasksForm("creationDate"),
+        Symbol("_label") -> "Creation Date",
+        Symbol("readonly") -> "readonly",
+        Symbol("class") -> "form-control")
+      </td>
+    </tr><tr>
+      <td>
+        @helper.inputDate(
+        tasksForm("dueDate"),
+        Symbol("_label") -> "Due Date",
+        Symbol("class") -> "form-control")
+      </td>
+    </tr><tr>
+      <td>
+        @select(
+        field = tasksForm("status"),
+        options = statusList,
+        Symbol("_default") -> "--Select One--",
+        Symbol("_label") -> "Status",
+        Symbol("class") -> "form-control")
+      </td>
+    </tr>
+    @if(todoTaskCommentsSet.size() > 0){
+    <tr>
+      <td colspan="2">
+        <table class="table table-bordered" style="text-align:center;">
+          <caption style="caption-side: top;font-weight:bold;text-align:center;">Task Comments</caption>
+          <thead>
+          <tr>
+            <th>Creation Date</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+          @for(taskComment <- todoTaskCommentsSet) {
+          <tr>
+            <td>@taskComment.getCreationDateStr()</td>
+            <td>@taskComment.getTaskComments()</td>
+          </tr>
+          }
+          </tbody>
+        </table>
+      </td>
+    </tr>
+    }
+    <tr>
+      <td colspan="2">
+        <table class="table table-borderless">
+          <tr>
+            <td>
+              <input type="button" class="btn btn-primary" onclick=addNewComments() value="Add New Comments"/>
+            </td>
+            <td id="commentsTable" style="display:none;">
+              @helper.textarea(
+              tasksForm("taskComments"),
+              Symbol("_label") -> "Description",
+              Symbol("class") -> "form-control",
+              Symbol("style") -> "height: 100px;width: 1000px;")
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <input type="hidden" id="systemTaskId" name="systemTaskId" value="@tasksForm.get().getSystemTaskId()"/>
+        <button class="btn btn-success" type="submit">
+          <i class="fa fa-edit" aria-hidden="true"></i> Update Task
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  }
+}
